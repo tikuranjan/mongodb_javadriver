@@ -15,9 +15,10 @@ public class MongoTest {
 	static String password 		= "null";
 	static String databaseName 	= "null";
 	static String collectioName = "null";
+	static int port				= 27017;
 	public static void main( String args[] ){
 	    try{   
-	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password);
+	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password,port);
 	     	BasicDBObject documentDetail = new BasicDBObject();
 	     	documentDetail.put("Name", "Kalyan Kumar");
 	     	documentDetail.put("SName", "Sahu");

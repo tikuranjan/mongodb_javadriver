@@ -16,10 +16,9 @@ public class MongoDB {
 	public static DBCollection collection = null;
 	public static long totalRecordCount = 0;
 
-	public MongoDB(String dbname, String collection, String userName,
-			String password) {
+	public MongoDB(String dbname, String collection, String userName,String password,int port) {
 		try {
-			this.mongoClient = new MongoClient("localhost", 27017);
+			this.mongoClient = new MongoClient("localhost", port);
 			this.db = mongoClient.getDB(dbname);
 			boolean auth = db.authenticate(userName, password.toCharArray());
 			this.collection = db.createCollection(collection, null);
