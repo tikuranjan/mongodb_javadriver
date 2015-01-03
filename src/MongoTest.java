@@ -1,12 +1,5 @@
 
-
 import com.mongodb.BasicDBObject;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-
-
-
 
 public class MongoTest {
 	
@@ -18,29 +11,42 @@ public class MongoTest {
 	static int port				= 27017;
 	public static void main( String args[] ){
 	    try{   
-	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password,port);
+	    	MongoDB mdb = new MongoDB( databaseName,collectioName,userName,password,port );
 	     	BasicDBObject documentDetail = new BasicDBObject();
-	     	documentDetail.put("Name", "Kalyan Kumar");
-	     	documentDetail.put("SName", "Sahu");
-	     	documentDetail.put("Age", 27);
-	     	documentDetail.put("Desig", "Agriculture");
-	     	documentDetail.put("Education", "Middle");
+//	     	documentDetail.put("Name", "Kalyan Kumar");
+//	     	documentDetail.put("SName", "Sahu");
+//	     	documentDetail.put("Age", 27);
+//	     	documentDetail.put("Desig", "Agriculture");
+//	     	documentDetail.put("Education", "Middle");
 
 
 	     	//Get data from document
-	     	mdb.selectAllRecordsFromACollection();
+	     	//mdb.selectAllRecordsFromACollection();
 	     	
 	     	// Find first record form document
-	     	mdb.selectFirstRecordsFromACollection();
+	     	//mdb.selectFirstRecordsFromACollection();
 	     	
 	     	//Insert into db collection
-	     	mdb.insertRecordToACollection(documentDetail,"Name");
+	     	//mdb.insertRecordToACollection(documentDetail,"Name");
 	     	
 	     	//Update Data 
-	     	mdb.updateACollection(documentDetail,"name",false,false);
+	     	//mdb.updateACollection(documentDetail,"name",false,false);
 	     	
 	     	//Update Data and allow multiple update
-	     	mdb.updateACollection(documentDetail,"Name",true,false);
+	     	//mdb.updateACollection(documentDetail,"Name",true,false);
+	     	
+//	     	DBCursor dbcrsr = mdb.getCollection(documentDetail);
+//	     	if(dbcrsr!=null){
+//	     		while(dbcrsr.hasNext()){
+//	     			System.out.println(">>"+dbcrsr.next());
+//	     		}
+//	     	}
+
+//	     	Delete document based on criteria
+//	     	BasicDBObject document = new BasicDBObject();
+//	    	document.put("Name", "Kalyan Kumar");
+//	    	mdb.deleteDocument(document);
+//	    	mdb.selectAllRecordsFromACollection();
 	     	
 	     	// Get total record in collection
 	     	System.out.println("Total Record found in db :=>"+mdb.totalRecordCount);
