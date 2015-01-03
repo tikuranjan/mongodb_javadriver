@@ -19,11 +19,11 @@ public class MongoTest {
 	    try{   
 	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password);
 	     	BasicDBObject documentDetail = new BasicDBObject();
-	     	documentDetail.put("Name", "Shankar");
+	     	documentDetail.put("Name", "Kalyan Kumar");
 	     	documentDetail.put("SName", "Sahu");
-	     	documentDetail.put("Age", 33);
-	     	documentDetail.put("Desig", "Doctor");
-	     	documentDetail.put("Education", "MA");
+	     	documentDetail.put("Age", 27);
+	     	documentDetail.put("Desig", "Agriculture");
+	     	documentDetail.put("Education", "Middle");
 
 
 	     	//Get data from document
@@ -33,10 +33,13 @@ public class MongoTest {
 	     	mdb.selectFirstRecordsFromACollection();
 	     	
 	     	//Insert into db collection
-	     	mdb.insertRecordToACollection(documentDetail);
+	     	mdb.insertRecordToACollection(documentDetail,"Name");
 	     	
 	     	//Update Data 
-	     	mdb.updateACollection(documentDetail);
+	     	mdb.updateACollection(documentDetail,"name",false,false);
+	     	
+	     	//Update Data and allow multiple update
+	     	mdb.updateACollection(documentDetail,"Name",true,false);
 	     	
 	     	// Get total record in collection
 	     	System.out.println("Total Record found in db :=>"+mdb.totalRecordCount);

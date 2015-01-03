@@ -32,20 +32,23 @@ public class MongoDB {
 
 	
 	//INSERT RECORD
-	public ObjectId insertRecordToACollection(BasicDBObject document) {
+	public ObjectId insertRecordToACollection(BasicDBObject document, String primaryKeyField) {
 		ObjectId id = null;
 		try {
-			DBObject criteria = new QueryBuilder().put("Name")
-					.is(document.getString("Name")).get();
-			// If the data is already found we will not insert it again
-			if (collection.findOne(criteria) == null) {
-				collection.insert(document);
-				id = (ObjectId) document.get("_id");
-				System.out.println("row inserted " + id);
-				return id;
-			} else {
-				System.out.println(collection.findOne(criteria).get("_id")
-						+ " Found duplicate :" + collection.findOne());
+			if(primaryKeyField!=null){
+				DBObject criteria = new QueryBuilder().put(primaryKeyField).is(document.getString(primaryKeyField)).get();
+				// If the data is already found we will not insert it again
+				if (collection.findOne(criteria) == null) {
+					collection.insert(document);
+					id = (ObjectId) document.get("_id");
+					System.out.println("row inserted " + id);
+					return id;
+				} else {
+					this.updateACollection(document, primaryKeyField, true, false);
+					System.out.println(collection.findOne(criteria).get("_id")+ " Found duplicate :" + collection.findOne());
+				}
+			}else{
+				System.out.println("Please provide a primary key filed to avoid duplicate");
 			}
 		} catch (Exception e) {
 			System.out.println("Exception while inserting data  " + e);
@@ -60,6 +63,13 @@ public class MongoDB {
 	// Select All Record and retrun Cursor
 	public DBCursor selectAllRecordsFromACollection() {
 		DBCursor cursor = this.collection.find();
+		
+		int i = 0;
+		while(cursor.hasNext()) {
+            DBObject o = cursor.next();
+            System.out.println(i+":"+o);    
+		}
+		
 		return cursor;
 	}
 	
@@ -67,27 +77,24 @@ public class MongoDB {
 	
 	// Select first record frm collection and return DBObject
 	public DBObject selectFirstRecordsFromACollection() {
+		System.out.println(collection.findOne());
 		return collection.findOne();
 	}
 
 	// Update a Collection and return object Id 
-	public ObjectId updateACollection(BasicDBObject document) {
+	public ObjectId updateACollection(BasicDBObject document,String criteriaFiled, boolean upsert, boolean multi) {
 		try {
-			DBObject criteria = new QueryBuilder().put("Name")
-					.is(document.getString("Name")).get();
-			// collection.findOne(criteria).get("_id");
+			ObjectId objId = null;
+			DBObject criteria = new QueryBuilder().put(criteriaFiled).is(document.getString(criteriaFiled)).get();
 			BSONObject docObject = collection.findOne(criteria);
 			if (docObject != null) {
-				ObjectId objId = new ObjectId(docObject.get("_id").toString());
-				criteria.put("_id", objId);
-				collection.update(criteria, document);
-				return objId;
 
-			} else {
-				System.out.println("No entry found so can be neew >>>>>");
-				collection.insert(document);
-				return (ObjectId) document.get("_id");
+				objId = new ObjectId(docObject.get("_id").toString());
+				criteria.put("_id", objId);
 			}
+			collection.update(criteria, document, upsert, multi);
+			return new ObjectId(docObject.get("_id").toString());
+
 		} catch (Exception e) {
 			System.out.println("Exception ocuured >>>>>" + e);
 		}
@@ -95,10 +102,11 @@ public class MongoDB {
 	}
 	// Create a collection and return it . 
 	public DBCollection createCollection(String name) {
-		DBObject options = BasicDBObjectBuilder.start().add("capped", true)
-				.add("size", 2000000000l).get();
+		DBObject options = BasicDBObjectBuilder.start().add("capped", true).add("size", 2000000000l).get();
 		this.collection = db.createCollection(name, options);
 		return this.collection;
 	}
+	
+	//
 
 }
