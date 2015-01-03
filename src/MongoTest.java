@@ -1,24 +1,30 @@
 
 
 import com.mongodb.BasicDBObject;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 
 
 
 public class MongoTest {
-	static String userName=null;
-	static String password = null;
 	
+	//Please provide following details to work on your mongo db 
+	static String userName		="null";
+	static String password 		= "null";
+	static String databaseName 	= "null";
+	static String collectioName = "null";
 	public static void main( String args[] ){
 	    try{   
-	    	MongoDB mdb = new MongoDB("javauser_mdb",userName,password);
+	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password);
 	     	BasicDBObject documentDetail = new BasicDBObject();
 	     	documentDetail.put("Name", "Shankar");
 	     	documentDetail.put("SName", "Sahu");
 	     	documentDetail.put("Age", 33);
 	     	documentDetail.put("Desig", "Doctor");
 	     	documentDetail.put("Education", "MA");
+
 
 	     	//Get data from document
 	     	mdb.selectAllRecordsFromACollection();
@@ -31,6 +37,9 @@ public class MongoTest {
 	     	
 	     	//Update Data 
 	     	mdb.updateACollection(documentDetail);
+	     	
+	     	// Get total record in collection
+	     	System.out.println("Total Record found in db :=>"+mdb.totalRecordCount);
 	         
 	      }catch(Exception e){
 		     System.err.println( e.getClass().getName() + ": " + e.getMessage() );
