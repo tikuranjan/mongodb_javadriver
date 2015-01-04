@@ -76,11 +76,9 @@ public class MongoDB {
 					collection.insert( document );
 					id = ( ObjectId ) document.get( "_id" );
 					System.out.println("row inserted " + id);
+					this.totalRecordCount=this.totalRecordCount+1;
 					return id;
-				} else {
-					this.updateACollection( document, primaryKeyField, true, false );
-					System.out.println( collection.findOne( criteria ).get( "_id" )+ " Found duplicate :" + collection.findOne());
-				}
+				} 
 			}else{
 				System.out.println("Please provide a primary key filed to avoid duplicate");
 			}
@@ -125,23 +123,22 @@ public class MongoDB {
 	}
 
 	// Update a Collection and return object Id 
-	public ObjectId updateACollection( BasicDBObject document,String criteriaFieled, boolean upsert, boolean multi ) {
+	public ObjectId updateACollection( BasicDBObject document,BasicDBObject criteriaDocument, boolean upsert, boolean multi ) {
 		try {
 			ObjectId objId = null;
-			DBObject criteria = new QueryBuilder().put( criteriaFieled ).is( document.getString( criteriaFieled ) ).get();
-			BSONObject docObject = collection.findOne( criteria );
-			if (docObject != null) {
-				
-				objId = new ObjectId( docObject.get("_id").toString() );
-				criteria.put("_id", objId);
-			}
-			collection.update( criteria, document, upsert, multi );
-			return new ObjectId( docObject.get("_id").toString() );
+			System.out.println("criteriaDocument>>"+criteriaDocument);
+//			BSONObject docObject = collection.findOne( criteriaDocument );
+			collection.update( criteriaDocument, document, upsert, multi );
+			return null;
 
 		} catch (Exception e) {
-			System.out.println("Exception ocuured >>>>>" + e);
+			System.out.println(" updateACollection Exception ocuured >>>>>" + e);
 		}
 		return null;
+	}
+	public void updateACollectionFieled( BasicDBObject criteriaDocument,BasicDBObject setDBObject, boolean upsert, boolean multi){ 
+		BasicDBObject _setBObject = new BasicDBObject("$set", setDBObject);
+		this.collection.update(criteriaDocument, _setBObject,false,false);
 	}
 	// Create a collection and return it . 
 	public DBCollection createCollection( String collectionName ) {
