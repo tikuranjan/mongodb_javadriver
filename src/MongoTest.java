@@ -1,8 +1,10 @@
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
 
 public class MongoTest {
 	
+    
 	//Please provide following details to work on your mongo db 
 	static String userName		="null";
 	static String password 		= "null";
@@ -11,7 +13,7 @@ public class MongoTest {
 	static int port				= 27017;
 	public static void main( String args[] ){
 	    try{   
-	    	MongoDB mdb = new MongoDB( databaseName,collectioName,userName,password,port );
+	    	MongoDB mdb = new MongoDB(databaseName,collectioName,userName,password);
 	     	BasicDBObject documentDetail = new BasicDBObject();
 //	     	documentDetail.put("Name", "Kalyan Kumar");
 //	     	documentDetail.put("SName", "Sahu");
@@ -35,12 +37,12 @@ public class MongoTest {
 	     	//Update Data and allow multiple update
 	     	//mdb.updateACollection(documentDetail,"Name",true,false);
 	     	
-//	     	DBCursor dbcrsr = mdb.getCollection(documentDetail);
-//	     	if(dbcrsr!=null){
-//	     		while(dbcrsr.hasNext()){
-//	     			System.out.println(">>"+dbcrsr.next());
-//	     		}
-//	     	}
+	     	DBCursor dbcrsr = mdb.getCollection(documentDetail);
+	     	if(dbcrsr!=null){
+	     		while(dbcrsr.hasNext()){
+	     			System.out.println(">>"+dbcrsr.next());
+	     		}
+	     	}
 
 //	     	Delete document based on criteria
 //	     	BasicDBObject document = new BasicDBObject();

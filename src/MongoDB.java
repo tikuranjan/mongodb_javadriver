@@ -20,7 +20,7 @@ public class MongoDB {
 		try {
 			
 			// Getting mongoClient object for the specified port on localhost
-			this.mongoClient 	  = new MongoClient( "localhost", port );
+			this.mongoClient 	  = new MongoClient( "localhost", port);
 			
 			// Getting database object 
 			this.db 			  = mongoClient.getDB( dbname );
@@ -40,6 +40,30 @@ public class MongoDB {
 		}
 	}
 
+	
+	public  MongoDB( String dbname, String collectioName, String userName, String password ) {
+		try {
+			
+			// Getting mongoClient object for the specified port on localhost
+			this.mongoClient 	  = new MongoClient( "localhost" );
+			
+			// Getting database object 
+			this.db 			  = mongoClient.getDB( dbname );
+			
+			// Getting authentication for the perticula user on specified password
+			boolean auth 		  = db.authenticate( userName, password.toCharArray() );
+			
+			// Getting collection 
+			this.collection 	  = db.getCollection( collectioName );
+
+			// getting total number of document in collection
+			this.totalRecordCount = this.collection.count();
+			
+			System.out.println("MongoDb instace created successfull");
+		} catch (Exception e) {
+
+		}
+	}
 	
 	//INSERT RECORD
 	public ObjectId insertRecordToACollection( BasicDBObject document, String primaryKeyField ) {
