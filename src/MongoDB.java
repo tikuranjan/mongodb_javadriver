@@ -92,7 +92,7 @@ public class MongoDB {
 	
 	
 	
-	// Select All Record and retrun Cursor
+	// Select All Record and return Cursor
 	public DBCursor selectAllRecordsFromACollection() {
 		DBCursor cursor = this.collection.find();
 		int i = 0;
@@ -105,40 +105,41 @@ public class MongoDB {
 	
 	
 	//Get collection based on criteria
-	public static DBCursor getCollection( DBObject criteria )
+	public static DBCursor getDocument( DBObject criteria )
 	{
 		DBCursor cursor =null;
 		if(criteria!=null){
 			cursor = collection.find( criteria );
 		}
 		return cursor;
-				
 	}
 	
 	
-	// Select first record frm collection and return DBObject
-	public DBObject selectFirstRecordsFromACollection () {
-		System.out.println(collection.findOne());
+	// Select first record from collection and return DBObject
+	public DBObject selectFirstDocumentFromACollection () {
+		
 		return collection.findOne();
 	}
 
-	// Update a Collection and return object Id 
-	public ObjectId updateACollection( BasicDBObject document,BasicDBObject criteriaDocument, boolean upsert, boolean multi ) {
-		try {
-			ObjectId objId = null;
-			System.out.println("criteriaDocument>>"+criteriaDocument);
-//			BSONObject docObject = collection.findOne( criteriaDocument );
-			collection.update( criteriaDocument, document, upsert, multi );
-			return null;
-
-		} catch (Exception e) {
-			System.out.println(" updateACollection Exception ocuured >>>>>" + e);
+	// Select first document  from collection with some criteria and return DBObject
+		public DBObject selectFirstDocumentFromACollection (BasicDBObject criteriaDocument) {
+			System.out.println(collection.findOne());
+			if(criteriaDocument==null){
+				
+				return selectFirstDocumentFromACollection();
+			
+			}else{
+			
+				return collection.findOne(criteriaDocument);
+			
+			}
 		}
-		return null;
-	}
+	
+		
+	// Update a Collection and return object Id 
 	public void updateACollectionFieled( BasicDBObject criteriaDocument,BasicDBObject setDBObject, boolean upsert, boolean multi){ 
 		BasicDBObject _setBObject = new BasicDBObject("$set", setDBObject);
-		this.collection.update(criteriaDocument, _setBObject,false,false);
+		this.collection.update(criteriaDocument, _setBObject,upsert,multi);
 	}
 	// Create a collection and return it . 
 	public DBCollection createCollection( String collectionName ) {
