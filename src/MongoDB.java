@@ -65,6 +65,10 @@ public class MongoDB {
 		}
 	}
 	
+	public static DBCollection getCollection(){
+		return collection;
+	}
+	
 	//INSERT RECORD
 	public ObjectId insertRecordToACollection( BasicDBObject document, String primaryKeyField ) {
 		ObjectId id = null;
@@ -94,6 +98,7 @@ public class MongoDB {
 	
 	// Select All Record and return Cursor
 	public DBCursor selectAllRecordsFromACollection() {
+		
 		DBCursor cursor = this.collection.find();
 		int i = 0;
 		while( cursor.hasNext() ) {
@@ -103,6 +108,16 @@ public class MongoDB {
 		return cursor;
 	}
 	
+	public DBCursor getDocumentSortBy( DBObject criteria ,BasicDBObject sortDBObject)
+	{
+		DBCursor cursor = this.collection.find(criteria).sort(sortDBObject);
+		int i = 0;
+		while( cursor.hasNext() ) {
+            DBObject o = cursor.next();
+            System.out.println(i+":"+o);    
+		}
+		return cursor;
+	}
 	
 	//Get collection based on criteria
 	public static DBCursor getDocument( DBObject criteria )

@@ -1,11 +1,13 @@
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
 
 public class MongoTest {
-	
+    
 	
 	//Please provide following details to work on your mongo db 
 	static String userName		="null";
@@ -37,7 +39,8 @@ public class MongoTest {
 	     	documentDetail.put("CITY", "Raipur");
 	     	documentDetail.put("PIN_CODE", 492001);
 
-
+	     	BasicDBObject sortDoc = new BasicDBObject();
+	     	sortDoc.put("BLOOD_GROUP", 1);
 	     	//Get data from document
 	     	mdb.selectAllRecordsFromACollection();
 	     	
@@ -53,7 +56,7 @@ public class MongoTest {
 	     	
 	     	BasicDBObject setDBObject = new BasicDBObject();
 	     	setDBObject.put("SNAME", "Ranjan");
-	     	mdb.updateACollectionFieled(criteriaDocument, setDBObject,false,false);
+	     	//mdb.updateACollectionFieled(criteriaDocument, setDBObject,false,false);
 	     	
 	     	BasicDBObject updatedocumentDetail = new BasicDBObject();
 	     	//updatedocumentDetail.put("SEX", "MALE");
@@ -76,6 +79,10 @@ public class MongoTest {
 	     	BasicDBObject query = new BasicDBObject();
 	        query.put("_id", new ObjectId("54a954610364663d3debb1cc"));
 	    	//mdb.deleteDocument(query);
+	        
+	        List myKeys = mdb.getCollection().distinct("NAME");
+	        java.util.Collections.sort(myKeys);
+	        System.out.println("Size is :"+myKeys.size());
 	     	
 	     	// Get total record in collection
 	     	System.out.println("Total Record found in db :=>"+mdb.totalRecordCount);
