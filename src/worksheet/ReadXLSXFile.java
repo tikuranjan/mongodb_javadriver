@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,7 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ReadXLSXFile {
 	public static void main(String[] args) {
 		try{
-		File myFile = new File("testme.xlsx");
+		File myFile = new File("testmel.xlsx");
         FileInputStream fis = new FileInputStream(myFile);
 
         // Finds the workbook instance for XLSX file
@@ -23,6 +24,10 @@ public class ReadXLSXFile {
         // Get iterator to all the rows in current sheet
         Iterator<Row> rowIterator = mySheet.iterator();
        
+        // Get Evaluevator 
+        FormulaEvaluator evaluator = myWorkBook.getCreationHelper().createFormulaEvaluator();
+
+        
         // Traversing over each row of XLSX file
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
@@ -43,6 +48,10 @@ public class ReadXLSXFile {
                 case Cell.CELL_TYPE_BOOLEAN:
                     System.out.print(cell.getBooleanCellValue() + "\t");
                     break;
+                case Cell.CELL_TYPE_FORMULA:
+                    System.out.print(evaluator.evaluate(cell).getNumberValue()+ "\t");
+                    break;
+                    
                 default :
              
                 }
