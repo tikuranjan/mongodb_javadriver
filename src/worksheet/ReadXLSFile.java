@@ -22,15 +22,15 @@ public class ReadXLSFile {
 	            HSSFSheet sheet = workbook.getSheetAt(0);
 	             
 	            //Iterate through each rows from first sheet
-	            Iterator<HSSFRow> rowIterator = sheet.rowIterator();
+	            Iterator rowIterator = sheet.rowIterator();
 	            while(rowIterator.hasNext()) {
-
-	            	HSSFRow row = rowIterator.next();
+	            	//HSSFRow myRow = 
+	            	HSSFRow row = (HSSFRow) rowIterator.next();
 	                //For each row, iterate through each columns
-	                Iterator<HSSFCell> cellIterator = row.cellIterator();
+	                Iterator cellIterator = row.cellIterator();
 	                while(cellIterator.hasNext()) {
 	                     
-	                	HSSFCell cell = cellIterator.next();
+	                	HSSFCell cell = (HSSFCell)cellIterator.next();
 	                     
 	                    switch(cell.getCellType()) {
 	                        case Cell.CELL_TYPE_BOOLEAN:

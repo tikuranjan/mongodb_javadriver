@@ -16,7 +16,7 @@ import org.apache.poi.hssf.util.HSSFColor;
 public class WriteXlsFile {
 	public static void main(String[] args) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream("poi-test.xls");
+			FileOutputStream fileOut = new FileOutputStream("poi-test-ranju.xls");
 			HSSFWorkbook workbook = new HSSFWorkbook();
 			HSSFSheet worksheet = workbook.createSheet("POI Worksheet");
 
