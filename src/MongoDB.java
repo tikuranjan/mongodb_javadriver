@@ -97,9 +97,16 @@ public class MongoDB {
 	
 	
 	// Select All Record and return Cursor
-	public DBCursor selectAllRecordsFromACollection() {
+	public DBCursor selectAllRecordsFromACollection(int limit) {
 		
-		DBCursor cursor = this.collection.find();
+		DBCursor cursor = null;
+		if(limit <= 0 ){
+			cursor = this.collection.find();
+		}
+		else{
+			cursor = this.collection.find().limit(limit);
+		}
+				
 		int i = 0;
 		while( cursor.hasNext() ) {
             DBObject o = cursor.next();
@@ -108,9 +115,14 @@ public class MongoDB {
 		return cursor;
 	}
 	
-	public DBCursor getDocumentSortBy( DBObject criteria ,BasicDBObject sortDBObject)
+	public DBCursor getDocumentSortBy( DBObject criteria ,BasicDBObject sortDBObject,int limit)
 	{
-		DBCursor cursor = this.collection.find(criteria).sort(sortDBObject);
+		DBCursor cursor = null;
+		if(limit <= 0 ){
+			cursor = this.collection.find(criteria).sort(sortDBObject);
+		}else{
+			cursor = this.collection.find(criteria).sort(sortDBObject).limit(limit);
+		}
 		int i = 0;
 		while( cursor.hasNext() ) {
             DBObject o = cursor.next();
@@ -120,11 +132,15 @@ public class MongoDB {
 	}
 	
 	//Get collection based on criteria
-	public static DBCursor getDocument( DBObject criteria )
+	public static DBCursor getDocument( DBObject criteria,int limit )
 	{
 		DBCursor cursor =null;
 		if(criteria!=null){
-			cursor = collection.find( criteria );
+			if(limit <=0){
+				cursor = collection.find( criteria );
+			}else{
+				cursor = collection.find( criteria ).limit(limit);
+			}
 		}
 		return cursor;
 	}
@@ -167,5 +183,7 @@ public class MongoDB {
 	public void deleteDocument( BasicDBObject document ){
 	 this.collection.remove(document);
 	}
+	
+
 
 }
