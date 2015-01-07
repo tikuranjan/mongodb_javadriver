@@ -22,7 +22,7 @@ public class WriteXlsxFile  {
 public static void main(String []args){
 
 	try{
-		 String excelFileName = "est.xlsx";//name of excel file    
+		 String excelFileName = "westt.xlsx";//name of excel file    
          String sheetName = "Sheet1";//name of sheet    
          SXSSFWorkbook wb = new SXSSFWorkbook(100); // keep 100 rows in memory, exceeding rows will be flushed to disk  
          Sheet sheet = wb.createSheet(sheetName);    
